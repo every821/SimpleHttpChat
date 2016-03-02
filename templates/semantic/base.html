@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="robots" content="nofollow" />
+    <link rel="stylesheet" href="//oss.maxcdn.com/semantic-ui/2.1.8/semantic.min.css" type="text/css">
+    <title>{{ title }}</title>
+</head>
+<body>
+{% block nav %}
+{% endblock %}
+<div class="ui three column stackable centered grid">
+    {% if not current_user %}
+    <div class="column">
+    <h1 class="ui header">Please, sign in:</h1>
+    {% endif %}
+    </div>
+</div>
+{% block content %}{% endblock %}
+{% block script %}{% endblock %}
+</body>
+</html>

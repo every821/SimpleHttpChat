@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block nav %}
+    {% include "include/navbar.html" %}
+{% endblock %}
+{% block content %}
+    <div class="ui stackable centered grid">
+        <div class="two wide column">
+            <h1 class="ui header right aligned green"><b>ONLINE</b></h1>
+        </div>
+        <div class="ten wide column">
+            <h1 class="ui header center aligned" id="channel" data-title="{{ title }}">
+                channel # <span class="ui red">{{ title }}</span>
+            </h1>
+        </div>
+    </div>
+    <div class="ui stackable centered grid">
+        <div class="two wide column" id="user_list">
+            {% include "include/user_list.html" %}
+        </div>
+        <div class="ten wide column">
+            <div class="row">
+                <div class="ui black inverted segment" id="inbox"
+                     style="overflow-y:scroll; height: 400px; padding-top: 5px;">
+                    {% for message in messages %}
+                        {% include "include/message.html" %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="row" id="input">
+                <p class="ui blue">
+                    <h5>You are signed as <b class="text-success">{{ current_user }}</b>
+                (<a href="/logout">logout</a>).
+                    <span id="error" class="ui red"></span>
+                    </h5>
+                </p>
+            </div>
+            <div class="row">
+                <form action="/" method="post" id="messageform">
+                    <input type="hidden" name="user" value="{{ current_user }}">
+                    <div class="ui fluid action input">
+                        <input name="body" id="message" type="text" placeholder="start typing">
+                        <button type="submit" class="ui primary button">send</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{{ STATIC_URL }}chat.js" type="text/javascript"></script>
+{% endblock %}
+
+
+
+
+
