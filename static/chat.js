@@ -32,7 +32,11 @@ var SocketHandler = function() {
 
         if (message.hasOwnProperty('user_list')){
             var parent = document.getElementById('user_list');
-            parent.removeChild(parent.firstChild);
+
+            while (parent.hasChildNodes()) {
+                parent.removeChild(parent.lastChild);
+            }
+
             parent.appendChild(make_user_list_members(message.user_list));
         }
         else if (message.hasOwnProperty('time')){

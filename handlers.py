@@ -53,7 +53,7 @@ async def websocket_handler(request):
     channel_waiters.append(ws)
     try:
         # 1. Send opening message --- e.g. user list
-        count = int(await r.zcount(channel_users))
+        count = int(await r.zcard(channel_users))
 
         await r.zadd(channel_users, count+1, current_user)
         users = await r.zrange(channel_users)
