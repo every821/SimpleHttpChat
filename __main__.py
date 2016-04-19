@@ -57,7 +57,8 @@ async def get_app(debug=False):
     async def close_websockets(app):
 
         for channel in app['waiters'].values():
-            for ws in channel:
+            while channel:
+                ws = channel.pop()
                 await ws.close(code=1000, message='Server shutdown')
 
     middlewares = [auth_cookie_factory]
@@ -86,7 +87,7 @@ async def get_app(debug=False):
     app['waiters'] = defaultdict(BList)
 
     app.on_shutdown.append(close_websockets)
-    app.on_shutdown.append(close_redis)
+    app.on_cleanup.append(close_redis)
 
     return app
 
