@@ -1,5 +1,5 @@
+
 window.onload = function(){
-    var socket = new SocketHandler();
     var form = document.getElementById('messageform');
 
     form.onsubmit = function(e){
@@ -15,6 +15,10 @@ window.onload = function(){
     inbox = document.getElementById('inbox');
     inbox.scrollTop = inbox.scrollHeight;
     document.getElementById('message').select();
+};
+
+window.onclose = function(){
+    socket.close(1000);
 };
 
 var SocketHandler = function() {
@@ -116,3 +120,5 @@ function make_message_block(message){
 
     return block;
 }
+
+var socket = new SocketHandler();

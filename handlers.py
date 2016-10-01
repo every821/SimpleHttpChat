@@ -1,4 +1,5 @@
 import json
+import asyncio
 from aiohttp import web, log
 import aiohttp_jinja2
 import logging
@@ -77,12 +78,12 @@ async def websocket_handler(request):
     finally:
         # 2. Send message to all who remained at the channel with new user list
         if ws in channel_waiters:
-            await ws.close()
-            log.ws_logger.info('Is WebSocket closed?: {}'.format(ws.closed))
             channel_waiters.remove(ws)
 
         await r.zrem(channel_users, current_user)
         users = await r.zrange(channel_users)
         channel_waiters.broadcast(json.dumps({'user_list': users}))
 
+    await ws.close()
+    log.ws_logger.info('Is WebSocket closed?: {}'.format(ws.closed))
     return ws

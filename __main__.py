@@ -51,6 +51,12 @@ async def get_app(debug=False):
     # Graceful shutdown actions
 
     async def close_redis(app):
+        keys = await app['redis'].keys('channels*:users')
+
+        # Can`t perform action like that:
+        # await app['redis'].delete(*keys)
+        for key in keys:
+            await app['redis'].delete(key)
         log.server_logger.info('Closing redis')
         app['redis'].close()
 
@@ -87,7 +93,7 @@ async def get_app(debug=False):
     app['waiters'] = defaultdict(BList)
 
     app.on_shutdown.append(close_websockets)
-    app.on_cleanup.append(close_redis)
+    app.on_shutdown.append(close_redis)
 
     return app
 
