@@ -1,4 +1,4 @@
-# aiohttp_chat
+# SimpleHttpChat
 
 Simple chat using aiohttp and aioredis.
 
